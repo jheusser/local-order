@@ -38,9 +38,9 @@ def h_n_cond(seq, ngram, l):
     return entropy(probdist, l)
 
 def local_uncertainty(seq, length, l=2):
-    """ lambda should be equal to the dictionary size of seq """
+    """Computes sliding window over h_n_cond for ngrams of length length """
     out = []
     for s in slide(seq, length):
         out.append(h_n_cond(slide(seq, length), s, l))
     return out
-       
+      
