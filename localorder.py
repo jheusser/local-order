@@ -1,7 +1,12 @@
 from itertools import izip
 from itertools import tee
 from numpy import log2
+from numpy import vectorize
 from collections import defaultdict
+
+@vectorize
+def div(a,b): 
+    return a/b
 
 def entropy(ps, base=2):
     """Calculate Shannon entropy given a probability distribution """
@@ -29,7 +34,7 @@ def h_n_cond(seq, ngram, l):
     for e,nxte in pairwise(seq):
         if e == ngram:
             counts[str(nxte)] += 1.
-    probdist = counts.values() / sum(counts.values()) 
+    probdist = div(counts.values(), sum(counts.values()))
     return entropy(probdist, l)
 
 def local_uncertainty(seq, length, l=2):
@@ -38,4 +43,4 @@ def local_uncertainty(seq, length, l=2):
     for s in slide(seq, length):
         out.append(h_n_cond(slide(seq, length), s, l))
     return out
-        
+       
